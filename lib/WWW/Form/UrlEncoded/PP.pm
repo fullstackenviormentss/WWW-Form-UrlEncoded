@@ -29,7 +29,7 @@ sub parse_urlencoded {
                 next;
             }
             s/$DECODE/$DecodeMap{$1}/gs;
-            push @params, $_."/";
+            push @params, $_;
         }
     }
 
