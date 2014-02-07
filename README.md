@@ -62,7 +62,7 @@ WWW::Form::UrlEncoded parsed string in this rule.
 
 - WWW\_FORM\_URLENCODED\_PP
 
-    If true, WWW::Form::UrlEncoded force to use WWW::Form::UrlEncoded::PP.
+    If true, WWW::Form::UrlEncoded force to load WWW::Form::UrlEncoded::PP.
 
 # LICENSE
 

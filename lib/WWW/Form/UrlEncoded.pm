@@ -119,7 +119,7 @@ parse C<$str> and return Array that contains key-value pairs.
 
 =item * WWW_FORM_URLENCODED_PP
 
-If true, WWW::Form::UrlEncoded force to use WWW::Form::UrlEncoded::PP.
+If true, WWW::Form::UrlEncoded force to load WWW::Form::UrlEncoded::PP.
 
 =back
 
