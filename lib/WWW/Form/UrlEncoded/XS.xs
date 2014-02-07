@@ -45,7 +45,7 @@ split_kv(char *start, char *end, char **key, int *key_len, char **value, int *va
 
 static SV *
 url_decode(const char *src, int src_len) {
-    int dlen, i = 0;
+    int dlen = 0, i = 0;
     char *d;
     char s2, s3;
 
