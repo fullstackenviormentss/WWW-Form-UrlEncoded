@@ -24,7 +24,7 @@ my @query_string = (
 my $xs = Text::QueryString->new;
 
 cmpthese(-1, {
-    qs => sub {
+    text_qs => sub {
         foreach my $qs (@query_string) {
             my @q = $xs->parse($qs);
         }
@@ -39,10 +39,19 @@ cmpthese(-1, {
             my @q = WWW::Form::UrlEncoded::PP::parse_urlencoded($qs);
         }
     },
-    urlecode => sub {
+    urlencode => sub {
         foreach my $qs (@query_string) {
             my @q = URL::Encode::url_params_flat($qs);
         }
     },
 });
+
+
+__END__
+              Rate wwwform_pp    text_qs    wwwform  urlencode
+wwwform_pp 11933/s         --       -78%       -87%       -88%
+text_qs    54098/s       353%         --       -42%       -44%
+wwwform    93699/s       685%        73%         --        -3%
+urlencode  96376/s       708%        78%         3%         --
+
 
