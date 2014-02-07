@@ -14,13 +14,6 @@ extern "C" {
 #define NEED_newSVpvn_flags
 #include "ppport.h"
 
-
-
-/* split on "=".
-   *key contains the key, &key_len contains the length,
-   *value contains the value, &valye_len contains the length.
-   if "=" is not found, key = the string, value = ''
-*/
 static
 void
 split_kv(char *start, char *end, char **key, int *key_len, char **value, int *value_len) {
@@ -50,10 +43,11 @@ split_kv(char *start, char *end, char **key, int *key_len, char **value, int *va
     }
 }
 
-SV *
+static SV *
 url_decode(const char *src, int src_len) {
     int dlen, i = 0;
     char *d;
+    char s2, s3;
 
     SV * dst;
     dst = newSV(0);
@@ -65,10 +59,14 @@ url_decode(const char *src, int src_len) {
             d[dlen++] = ' ';
         }
         else if ( src[i] == '%' && isxdigit(src[i+1]) && isxdigit(src[i+2]) ) {
-            char s2 = src[i+1];
-            char s3 = src[i+2];
-            s2 -= s2 < 58 ? 48 : s2 < 71 ? 55 : 87;
-            s3 -= s3 < 58 ? 48 : s3 < 71 ? 55 : 87;
+            s2 = src[i+1];
+            s3 = src[i+2];
+            s2 -= s2 <= '9' ? '0'
+                : s2 <= 'F' ? 'A' - 10
+                            : 'a' - 10;
+            s3 -= s3 <= '9' ? '0'
+                : s3 <= 'F' ? 'A' - 10
+                            : 'a' - 10;
             d[dlen++] = s2 * 16 + s3;
             i += 2;
         }
@@ -101,12 +99,6 @@ PPCODE:
             mPUSHs(url_decode(key, key_len));
             mPUSHs(url_decode(value, value_len));
             cur++;
-            if ( *cur == '\0' ) {
-                *cur = '=';
-                cur++;
-                *cur = '\0';
-                --cur;
-            }
             prev = cur;
         } else {
             cur++;
@@ -119,3 +111,8 @@ PPCODE:
         mPUSHs(url_decode(value, value_len));
     }
 
+    --cur;
+    if ( *cur == '&' || *cur == ';' ) {
+        mPUSHs(newSVpvn("",0));
+        mPUSHs(newSVpvn("",0));
+    }
