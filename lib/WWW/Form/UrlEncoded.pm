@@ -123,7 +123,7 @@ If true, WWW::Form::UrlEncoded force to load WWW::Form::UrlEncoded::PP.
 
 =back
 
-=head11 SEE ALSO
+=head1 SEE ALSO
 
 CPAN already has some application/x-www-form-urlencoded parser modules like these.
 
@@ -137,7 +137,7 @@ CPAN already has some application/x-www-form-urlencoded parser modules like thes
 
 =back
 
-They does not fully compatibile with WWW::Form::UrlEncoded. Handling of empty key-value
+They does not fully compatible with WWW::Form::UrlEncoded. Handling of empty key-value
 and supporting separator characters are different.
 
 =head1 LICENSE

@@ -72,7 +72,7 @@ CPAN already has some application/x-www-form-urlencoded parser modules like thes
 - [URL::Encode::XS](http://search.cpan.org/perldoc?URL::Encode::XS)
 - [Text::QueryString](http://search.cpan.org/perldoc?Text::QueryString)
 
-They does not fully compatibile with WWW::Form::UrlEncoded. Handling of empty key-value
+They does not fully compatible with WWW::Form::UrlEncoded. Handling of empty key-value
 and supporting separator characters are different.
 
 # LICENSE

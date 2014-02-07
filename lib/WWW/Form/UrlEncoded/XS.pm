@@ -30,7 +30,7 @@ WWW::Form::UrlEncoded::XS - XS implementation of parser for application/x-www-fo
 
 =head1 DESCRIPTION
 
-WWW::Form::UrlEncoded::XS provides application/x-www-form-urlencoded parser that implementated by XS.
+WWW::Form::UrlEncoded::XS provides application/x-www-form-urlencoded parser that is implemented by XS.
 see L<WWW::Form::UrlEncoded>'s document.
 
 =head1 LICENSE
