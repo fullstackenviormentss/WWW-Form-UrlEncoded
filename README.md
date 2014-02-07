@@ -13,8 +13,8 @@ WWW::Form::UrlEncoded - parser for application/x-www-form-urlencoded
 # DESCRIPTION
 
 WWW::Form::UrlEncoded provides application/x-www-form-urlencoded parser.
-This module aims to have compatibility with other CPAN modules like HTTP::Body
-and be fast by XS implementation.
+This module aims to have compatibility with other CPAN modules like 
+HTTP::Body's urlencoded parser. And aims be fast by XS implementation.
 
 ## Parser rules
 
@@ -63,6 +63,17 @@ WWW::Form::UrlEncoded parsed string in this rule.
 - WWW\_FORM\_URLENCODED\_PP
 
     If true, WWW::Form::UrlEncoded force to load WWW::Form::UrlEncoded::PP.
+
+# SEE ALSO
+
+CPAN already has some application/x-www-form-urlencoded parser modules like these.
+
+- [URL::Encode](http://search.cpan.org/perldoc?URL::Encode)
+- [URL::Encode::XS](http://search.cpan.org/perldoc?URL::Encode::XS)
+- [Text::QueryString](http://search.cpan.org/perldoc?Text::QueryString)
+
+They does not fully compatibile with WWW::Form::UrlEncoded. Handling of empty key-value
+and supporting separator characters are different.
 
 # LICENSE
 
