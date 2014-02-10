@@ -11,7 +11,6 @@ extern "C" {
 } /* extern "C" */
 #endif
 
-#define NEED_newSVpvn_flags
 #include "ppport.h"
 
 static
