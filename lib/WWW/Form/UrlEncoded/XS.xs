@@ -43,12 +43,12 @@ split_kv(char *start, char *end, char **key, int *key_len, char **value, int *va
 }
 
 static SV *
-url_decode(const char *src, int src_len) {
+url_decode(pTHX_ const char *src, int src_len) {
     int dlen = 0, i = 0;
     char *d;
     char s2, s3;
-
     SV * dst;
+
     dst = newSV(0);
     (void)SvUPGRADE(dst, SVt_PV);
     d = SvGROW(dst, src_len * 3 + 1);
@@ -95,8 +95,8 @@ PPCODE:
     while (*cur != '\0') {
         if (*cur == '&' || *cur == ';') {
             split_kv(prev, cur, &key, &key_len, &value, &value_len);
-            mPUSHs(url_decode(key, key_len));
-            mPUSHs(url_decode(value, value_len));
+            PUSHs(sv_2mortal(url_decode(aTHX_ key, key_len)));
+            PUSHs(sv_2mortal(url_decode(aTHX_ value, value_len)));
             cur++;
             prev = cur;
         } else {
@@ -106,12 +106,12 @@ PPCODE:
 
     if (prev != cur) {
         split_kv(prev, cur, &key, &key_len, &value, &value_len);
-        mPUSHs(url_decode(key, key_len));
-        mPUSHs(url_decode(value, value_len));
+        PUSHs(sv_2mortal(url_decode(aTHX_ key, key_len)));
+        PUSHs(sv_2mortal(url_decode(aTHX_ value, value_len)));
     }
 
     --cur;
     if ( *cur == '&' || *cur == ';' ) {
-        mPUSHs(newSVpvn("",0));
-        mPUSHs(newSVpvn("",0));
+        PUSHs(sv_2mortal(newSVpv("",0)));
+        PUSHs(sv_2mortal(newSVpv("",0)));
     }
