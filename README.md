@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/kazeburo/WWW-Form-UrlEncoded.png?branch=master)](https://travis-ci.org/kazeburo/WWW-Form-UrlEncoded)
 # NAME
 
 WWW::Form::UrlEncoded - parser for application/x-www-form-urlencoded

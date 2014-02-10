@@ -1,3 +1,4 @@
 name = "WWW-Form-UrlEncoded"
 allow_pureperl = 1
-# badges = ["travis"]
+c_source = ["src"]
+badges = ["travis"]
