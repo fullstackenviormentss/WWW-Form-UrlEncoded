@@ -2,6 +2,10 @@ Revision history for Perl extension WWW-Form-UrlEncoded
 
 {{$NEXT}}
 
+0.03 2014-02-10T16:10:56Z
+
+    - fix bug with thread enabled perl
+
 0.02 2014-02-10T02:25:59Z
 
     - mv ppport.h to src
