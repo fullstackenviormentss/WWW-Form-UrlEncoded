@@ -4,10 +4,11 @@ use strict;
 use warnings;
 use base qw/Exporter/;
 
-our @EXPORT_OK = qw/parse_urlencoded/;
+our @EXPORT_OK = qw/parse_urlencoded build_urlencoded/;
 
 our $DECODE = qr/%([0-9a-fA-F]{2})/;
 our %DecodeMap;
+our %EncodeMap;
 for my $num ( 0 .. 255 ) {
     my $h = sprintf "%02X", $num;
     my $chr = chr $num;
@@ -15,7 +16,9 @@ for my $num ( 0 .. 255 ) {
     $DecodeMap{ uc $h } = $chr; #%AA
     $DecodeMap{ ucfirst lc $h } = $chr; #%Aa
     $DecodeMap{ lcfirst uc $h } = $chr; #%aA
+    $EncodeMap{$chr} = '%'. uc $h;
 }
+$EncodeMap{" "} = '+';
 
 sub parse_urlencoded {
     return [] unless defined $_[0];
@@ -34,6 +37,32 @@ sub parse_urlencoded {
     }
 
     return @params;
+}
+
+sub build_urlencoded {
+    return "" unless @_;
+    my $uri = '';
+    while ( @_ ) {
+        my $k = shift @_;
+        my $v = shift @_;
+        if ( ref $v && ref $v eq 'ARRAY') {
+            $uri .= url_encode($k) . '='. url_encode($_) . '&' for @$v;
+        }
+        else {
+            $uri .= url_encode($k) . '='. url_encode($v) . '&'
+        }
+    }
+    substr($uri,-1,1,"");
+    $uri;
+}
+
+sub url_encode {
+    return '' unless defined $_[0];
+    my $t = shift; 
+    $t =~ s!([^A-Za-z0-9\-\._~])!
+        join '',@EncodeMap{exists $EncodeMap{$1} ? ($1) : ($1 =~ /(\C)/gs)}
+    !gsxe;
+    return $t;
 }
 
 1;

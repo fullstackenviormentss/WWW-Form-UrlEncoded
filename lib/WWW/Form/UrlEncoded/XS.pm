@@ -5,10 +5,11 @@ use warnings;
 use base qw/Exporter/;
 
 our $VERSION = 0.03;
-our @EXPORT_OK = qw/parse_urlencoded/;
+our @EXPORT_OK = qw/parse_urlencoded build_urlencoded/;
 
 use XSLoader;
 XSLoader::load(__PACKAGE__, $VERSION);
+
 
 1;
 
