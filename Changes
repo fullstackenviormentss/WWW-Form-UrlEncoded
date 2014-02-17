@@ -2,6 +2,10 @@ Revision history for Perl extension WWW-Form-UrlEncoded
 
 {{$NEXT}}
 
+0.04 2014-02-17T03:30:50Z
+
+    - add build_urlencoded
+
 0.03 2014-02-10T16:10:56Z
 
     - fix bug with thread enabled perl
