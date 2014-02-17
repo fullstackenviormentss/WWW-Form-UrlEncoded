@@ -45,6 +45,9 @@
          "requires" : {
             "Exporter" : "0",
             "perl" : "5.008001"
+         },
+         "suggests" : {
+            "WWW::Form::UrlEncoded::XS" : "0.10"
          }
       },
       "test" : {

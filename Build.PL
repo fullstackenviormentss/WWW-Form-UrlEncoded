@@ -25,7 +25,7 @@ my %args = (
 
     name            => 'WWW-Form-UrlEncoded',
     module_name     => 'WWW::Form::UrlEncoded',
-    allow_pureperl => 1,
+    allow_pureperl => 0,
 
     script_files => [glob('script/*'), glob('bin/*')],
     c_source     => [qw()],
