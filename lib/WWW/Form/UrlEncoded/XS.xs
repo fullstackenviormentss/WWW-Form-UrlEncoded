@@ -35,47 +35,17 @@ static char escapes[256] =
 };
 static char xdigit[16] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
-static
-void
-split_kv(char *start, char *end, char **key, int *key_len, char **value, int *value_len) {
-    char *cur = start;
-    int found_eq = 0;
-    if ( *cur == ' ' ) {
-        cur++;
-        start++;
-    }
-    while (cur != end) {
-        if (*cur == '=') {
-            found_eq = 1;
-            *key = start;
-            *key_len = cur - start;
-            cur++;
-            break;
-        }
-        cur++;
-    }
-    if (found_eq) {
-        *value = cur;
-        *value_len = end - cur;
-    } else {
-        *key = start;
-        *key_len = end - start;
-        *value_len = 0;
-    }
-}
-
 static SV *
-url_decode(pTHX_ const char *src, int src_len) {
+url_decode(pTHX_ const char *src, int start, int end) {
     int dlen = 0, i = 0;
     char *d;
     char s2, s3;
     SV * dst;
-
     dst = newSV(0);
     (void)SvUPGRADE(dst, SVt_PV);
-    d = SvGROW(dst, src_len * 3 + 1);
+    d = SvGROW(dst, (end - start) * 3 + 1);
 
-    for (i = 0; i < src_len; i++ ) {
+    for (i = start; i < end; i++ ) {
         if (src[i] == '+'){
             d[dlen++] = ' ';
         }
@@ -166,35 +136,60 @@ PROTOTYPES: DISABLE
 
 void
 parse_urlencoded(qs)
-    char *qs
+    SV *qs
   PREINIT:
-    char *cur = qs;
-    char *prev = qs;
-    char *key, *value;
-    int key_len, value_len;
+    char *src, *prev, *p;
+    int i, prev_s=0, f;
+    STRLEN src_len;
   PPCODE:
-    while (*cur != '\0') {
-        if (*cur == '&' || *cur == ';') {
-            split_kv(prev, cur, &key, &key_len, &value, &value_len);
-            PUSHs(sv_2mortal(url_decode(aTHX_ key, key_len)));
-            PUSHs(sv_2mortal(url_decode(aTHX_ value, value_len)));
-            cur++;
-            prev = cur;
-        } else {
-            cur++;
+    if ( !SvOK(qs) ) {
+    }
+    else {
+        src = (char *)SvPV(qs,src_len);
+        prev = src;
+        for ( i=0; i<src_len; i++ ) {
+            if ( src[i] == '&' || src[i] == ';') {
+                if ( prev[0] == ' ' ) {
+                    prev++;
+                    prev_s++;
+                }
+                p = memchr(prev, '=', i - prev_s);
+                if ( p == NULL ) {
+                    f = 0;
+                    p = &prev[i-prev_s];
+                }
+                else {
+                    f = 1;
+                }
+                mPUSHs(url_decode(aTHX_ src, prev_s, p - prev + prev_s ));
+                mPUSHs(url_decode(aTHX_ src, p - prev + prev_s + f, i ));
+                prev = &src[i+1];
+                prev_s = i + 1;
+            }
         }
-    }
 
-    if (prev != cur) {
-        split_kv(prev, cur, &key, &key_len, &value, &value_len);
-        PUSHs(sv_2mortal(url_decode(aTHX_ key, key_len)));
-        PUSHs(sv_2mortal(url_decode(aTHX_ value, value_len)));
-    }
+        if ( i > prev_s ) {
+            if ( prev[0] == ' ' ) {
+                prev++;
+                prev_s++;
+            }
+            p = memchr(prev, '=', i - prev_s);
+            if ( p == NULL ) {
+                f = 0;
+                p = &prev[i-prev_s];
+            }
+            else {
+                f = 1;
+            }
+            mPUSHs(url_decode(aTHX_ src, prev_s, p - prev + prev_s ));
+            mPUSHs(url_decode(aTHX_ src, p - prev + prev_s + f, i ));
+        }
 
-    --cur;
-    if ( *cur == '&' || *cur == ';' ) {
-        PUSHs(sv_2mortal(newSVpv("",0)));
-        PUSHs(sv_2mortal(newSVpv("",0)));
+        if ( src[src_len-1] == '&' || src[src_len-1] == ';' ) {
+            mPUSHs(newSVpv("",0));
+            mPUSHs(newSVpv("",0));
+        }
+
     }
 
 

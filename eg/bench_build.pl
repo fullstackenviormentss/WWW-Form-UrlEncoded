@@ -25,7 +25,7 @@ my @qs = (
 warn build_urlencoded(@qs);
 
 cmpthese(timethese(-2, {
-    'uri' => sub {
+    'use_uri' => sub {
         my $uri = URI->new($base . $path);
         $uri->query_form(
             s_id => 1,
@@ -55,7 +55,7 @@ cmpthese(timethese(-2, {
         $uri;
 
     },
-    'concat_xs' => sub {
+    'concat_url_encode_xs' => sub {
         my @qs = (
             s_id => 1,
             type => 'foo',
@@ -75,7 +75,7 @@ cmpthese(timethese(-2, {
         substr($uri,-1,1,"");
         $uri;
     },
-    'build_urlencoded' => sub {
+    'build_urlencoded_xs' => sub {
         my $uri = $base . $path . '?' . build_urlencoded(
             s_id => 1,
             type => 'foo',
@@ -86,12 +86,13 @@ cmpthese(timethese(-2, {
 }));
 
 __END__
-Benchmark: running concat, concat_xs, uri for at least 2 CPU seconds...
-    concat:  2 wallclock secs ( 2.04 usr +  0.00 sys =  2.04 CPU) @ 81818.63/s (n=166910)
- concat_xs:  2 wallclock secs ( 2.17 usr +  0.00 sys =  2.17 CPU) @ 277470.51/s (n=602111)
-       uri:  2 wallclock secs ( 2.20 usr +  0.00 sys =  2.20 CPU) @ 25653.18/s (n=56437)
-              Rate       uri    concat concat_xs
-uri        25653/s        --      -69%      -91%
-concat     81819/s      219%        --      -71%
-concat_xs 277471/s      982%      239%        --
-
+Benchmark: running build_urlencoded_xs, concat_uri, concat_url_encode_xs, use_uri for at least 2 CPU seconds...
+build_urlencoded_xs:  2 wallclock secs ( 2.08 usr +  0.00 sys =  2.08 CPU) @ 482635.58/s (n=1003882)
+concat_uri:  3 wallclock secs ( 2.21 usr +  0.00 sys =  2.21 CPU) @ 19460.18/s (n=43007)
+concat_url_encode_xs:  3 wallclock secs ( 2.12 usr +  0.00 sys =  2.12 CPU) @ 119165.09/s (n=252630)
+   use_uri:  2 wallclock secs ( 2.17 usr +  0.00 sys =  2.17 CPU) @ 12387.10/s (n=26880)
+                         Rate use_uri concat_uri concat_url_encode_xs build_urlencoded_xs
+use_uri               12387/s      --       -36%                 -90%                -97%
+concat_uri            19460/s     57%         --                 -84%                -96%
+concat_url_encode_xs 119165/s    862%       512%                   --                -75%
+build_urlencoded_xs  482636/s   3796%      2380%                 305%                  --
