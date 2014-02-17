@@ -1,19 +1,24 @@
 [![Build Status](https://travis-ci.org/kazeburo/WWW-Form-UrlEncoded.png?branch=master)](https://travis-ci.org/kazeburo/WWW-Form-UrlEncoded)
 # NAME
 
-WWW::Form::UrlEncoded - parser for application/x-www-form-urlencoded
+WWW::Form::UrlEncoded - parser and builder for application/x-www-form-urlencoded
 
 # SYNOPSIS
 
-    use WWW::Form::UrlEncoded qw/parse_urlencoded/;
+    use WWW::Form::UrlEncoded qw/parse_urlencoded build_urlencoded/;
+    
 
     my $query_string = "foo=bar&baz=param";
     my @params = parse_urlencoded($query_string);
     # ('foo','bar','baz','param')
+    
+
+    my $query_string = build_urlencoded('foo','bar','baz','param');
+    # "foo=bar&baz=param";
 
 # DESCRIPTION
 
-WWW::Form::UrlEncoded provides application/x-www-form-urlencoded parser.
+WWW::Form::UrlEncoded provides application/x-www-form-urlencoded parser and builder.
 This module aims to have compatibility with other CPAN modules like 
 HTTP::Body's urlencoded parser. And aims be fast by XS implementation.
 
@@ -58,6 +63,10 @@ WWW::Form::UrlEncoded parsed string in this rule.
 - @param = parse\_urlencoded($str:String)
 
     parse `$str` and return Array that contains key-value pairs.
+
+- $string = build\_urlencoded(@param)
+
+    build urlencoded string from `@params`
 
 # ENVIRONMENT VALUE
 

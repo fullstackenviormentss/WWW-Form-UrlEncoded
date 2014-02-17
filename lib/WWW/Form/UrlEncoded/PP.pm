@@ -73,19 +73,22 @@ __END__
 
 =head1 NAME
 
-WWW::Form::UrlEncoded::PP - pure-perl parser for application/x-www-form-urlencoded
+WWW::Form::UrlEncoded::PP - pure-perl parser and builder for application/x-www-form-urlencoded
 
 =head1 SYNOPSIS
 
-    use WWW::Form::UrlEncoded::PP qw/parse_urlencoded/;
-
+    use WWW::Form::UrlEncoded::PP qw/parse_urlencoded build_urlencoded/;
+    
     my $query_string = "foo=bar&baz=param";
     my @params = parse_urlencoded($query_string);
     # ('foo','bar','baz','param')
+    
+    my $query_string = build_urlencoded('foo','bar','baz','param');
+    # "foo=bar&baz=param";
 
 =head1 DESCRIPTION
 
-WWW::Form::UrlEncoded::PP provides pure-perl application/x-www-form-urlencoded parser.
+WWW::Form::UrlEncoded::PP provides pure-perl application/x-www-form-urlencoded parser and builder.
 see L<WWW::Form::UrlEncoded>'s document.
 
 =head1 LICENSE
