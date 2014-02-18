@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    our $VERSION = "0.10";
+    our $VERSION = "0.12";
     our @EXPORT_OK = qw/parse_urlencoded build_urlencoded/;
 
     my $use_pp = $ENV{WWW_FORM_URLENCODED_PP};

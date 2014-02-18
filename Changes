@@ -2,6 +2,11 @@ Revision history for Perl extension WWW-Form-UrlEncoded
 
 {{$NEXT}}
 
+0.12 2014-02-18T03:38:24Z
+
+    - install .keep file under $arch/WWW/Form/UrlEncoded/XS to keep compatiblity before 0.10
+    - build_urlencoded supports arrayref and hashref args
+
 0.10 2014-02-17T06:10:58Z
 
     - [IMPORTANT] split WWW::Form::UrlEncoded into another dist.
