@@ -123,7 +123,17 @@ parse C<$str> and return Array that contains key-value pairs.
 
 =item $string = build_urlencoded(@param)
 
-build urlencoded string from C<@params>
+=item $string = build_urlencoded(\@param)
+
+=item $string = build_urlencoded(\%param)
+
+build urlencoded string from B<param>. build_urlencoded accepts arrayref and hashref values.
+
+  build_urlencoded( foo => 1, foo => 2);
+  build_urlencoded( foo => [1,2] );
+  build_urlencoded( [ foo => 1, foo => 2 ] );
+  build_urlencoded( [foo => [1,2]] );
+  build_urlencoded( {foo => [1,2]} );
 
 =back
 
