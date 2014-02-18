@@ -11,8 +11,12 @@ BEGIN {
     my $use_pp = $ENV{WWW_FORM_URLENCODED_PP};
 
     if (!$use_pp) {
-        eval { 
+        eval {
             require WWW::Form::UrlEncoded::XS;
+            if ( $WWW::Form::UrlEncoded::XS::VERSION < $VERSION ) {
+                warn "WWW::Form::UrlEncoded::XS $VERSION is require. fallback to PP version";
+                die;
+            }
         };
         $use_pp = !!$@;
     }

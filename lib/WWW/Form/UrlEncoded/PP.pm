@@ -42,14 +42,39 @@ sub parse_urlencoded {
 sub build_urlencoded {
     return "" unless @_;
     my $uri = '';
-    while ( @_ ) {
-        my $k = shift @_;
-        my $v = shift @_;
-        if ( ref $v && ref $v eq 'ARRAY') {
-            $uri .= url_encode($k) . '='. url_encode($_) . '&' for @$v;
+    if ( ref $_[0] && ref $_[0] eq 'ARRAY') {
+        my @args = @{$_[0]};
+        while ( @args ) {
+            my $k = shift @args;
+            my $v = shift @args;
+            if ( ref $v && ref $v eq 'ARRAY') {
+                $uri .= url_encode($k) . '='. url_encode($_) . '&' for @$v;
+            }
+            else {
+                $uri .= url_encode($k) . '='. url_encode($v) . '&'
+            }
         }
-        else {
-            $uri .= url_encode($k) . '='. url_encode($v) . '&'
+    }
+    elsif ( ref $_[0] && ref $_[0] eq 'HASH') {
+        while ( my ($k,$v) = each %{$_[0]} ) {
+            if ( ref $v && ref $v eq 'ARRAY') {
+                $uri .= url_encode($k) . '='. url_encode($_) . '&' for @$v;
+            }
+            else {
+                $uri .= url_encode($k) . '='. url_encode($v) . '&'
+            }
+        }
+    }
+    else {
+        while ( @_ ) {
+            my $k = shift @_;
+            my $v = shift @_;
+            if ( ref $v && ref $v eq 'ARRAY') {
+                $uri .= url_encode($k) . '='. url_encode($_) . '&' for @$v;
+            }
+            else {
+                $uri .= url_encode($k) . '='. url_encode($v) . '&'
+            }
         }
     }
     substr($uri,-1,1,"");
