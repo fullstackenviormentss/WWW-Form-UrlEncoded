@@ -2,6 +2,10 @@ Revision history for Perl extension WWW-Form-UrlEncoded
 
 {{$NEXT}}
 
+0.13 2014-02-18T07:59:59Z
+
+    - supports a delimiter parameter
+
 0.12 2014-02-18T03:38:24Z
 
     - install .keep file under $arch/WWW/Form/UrlEncoded/XS to keep compatiblity before 0.10
