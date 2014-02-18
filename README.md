@@ -68,8 +68,11 @@ WWW::Form::UrlEncoded parsed string in this rule.
     parse `$str` and return Array that contains key-value pairs.
 
 - $string = build\_urlencoded(@param)
+- $string = build\_urlencoded(@param, $delim)
 - $string = build\_urlencoded(\\@param)
+- $string = build\_urlencoded(\\@param, $delim)
 - $string = build\_urlencoded(\\%param)
+- $string = build\_urlencoded(\\%param, $delim)
 
     build urlencoded string from __param__. build\_urlencoded accepts arrayref and hashref values.
 
@@ -78,6 +81,8 @@ WWW::Form::UrlEncoded parsed string in this rule.
         build_urlencoded( [ foo => 1, foo => 2 ] );
         build_urlencoded( [foo => [1,2]] );
         build_urlencoded( {foo => [1,2]} );
+
+    If `$delim` parameter is passed, this function use it instead of using `&`.
 
 # ENVIRONMENT VALUE
 

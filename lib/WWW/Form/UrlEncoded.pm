@@ -123,9 +123,15 @@ parse C<$str> and return Array that contains key-value pairs.
 
 =item $string = build_urlencoded(@param)
 
+=item $string = build_urlencoded(@param, $delim)
+
 =item $string = build_urlencoded(\@param)
 
+=item $string = build_urlencoded(\@param, $delim)
+
 =item $string = build_urlencoded(\%param)
+
+=item $string = build_urlencoded(\%param, $delim)
 
 build urlencoded string from B<param>. build_urlencoded accepts arrayref and hashref values.
 
@@ -134,6 +140,8 @@ build urlencoded string from B<param>. build_urlencoded accepts arrayref and has
   build_urlencoded( [ foo => 1, foo => 2 ] );
   build_urlencoded( [foo => [1,2]] );
   build_urlencoded( {foo => [1,2]} );
+
+If C<$delim> parameter is passed, this function use it instead of using C<&>.
 
 =back
 

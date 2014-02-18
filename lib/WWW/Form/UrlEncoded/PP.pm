@@ -42,42 +42,48 @@ sub parse_urlencoded {
 sub build_urlencoded {
     return "" unless @_;
     my $uri = '';
+    my $delim = '&';
     if ( ref $_[0] && ref $_[0] eq 'ARRAY') {
         my @args = @{$_[0]};
+        $delim = $_[1] if defined $_[1];
         while ( @args ) {
             my $k = shift @args;
             my $v = shift @args;
             if ( ref $v && ref $v eq 'ARRAY') {
-                $uri .= url_encode($k) . '='. url_encode($_) . '&' for @$v;
+                $uri .= url_encode($k) . '='. url_encode($_) . $delim for @$v;
             }
             else {
-                $uri .= url_encode($k) . '='. url_encode($v) . '&'
+                $uri .= url_encode($k) . '='. url_encode($v) . $delim
             }
         }
     }
     elsif ( ref $_[0] && ref $_[0] eq 'HASH') {
+        $delim = $_[1] if defined $_[1];
         while ( my ($k,$v) = each %{$_[0]} ) {
             if ( ref $v && ref $v eq 'ARRAY') {
-                $uri .= url_encode($k) . '='. url_encode($_) . '&' for @$v;
+                $uri .= url_encode($k) . '='. url_encode($_) . $delim for @$v;
             }
             else {
-                $uri .= url_encode($k) . '='. url_encode($v) . '&'
+                $uri .= url_encode($k) . '='. url_encode($v) . $delim
             }
         }
     }
     else {
+        if ( @_ > 2 && @_ % 2 ) {
+            $delim = pop @_;
+        }
         while ( @_ ) {
             my $k = shift @_;
             my $v = shift @_;
             if ( ref $v && ref $v eq 'ARRAY') {
-                $uri .= url_encode($k) . '='. url_encode($_) . '&' for @$v;
+                $uri .= url_encode($k) . '='. url_encode($_) . $delim for @$v;
             }
             else {
-                $uri .= url_encode($k) . '='. url_encode($v) . '&'
+                $uri .= url_encode($k) . '='. url_encode($v) . $delim
             }
         }
     }
-    substr($uri,-1,1,"");
+    substr($uri,-1*length($delim),length($delim),"");
     $uri;
 }
 
