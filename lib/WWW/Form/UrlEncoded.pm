@@ -6,7 +6,7 @@ use warnings;
 
 BEGIN {
     our $VERSION = "0.13";
-    our @EXPORT_OK = qw/parse_urlencoded build_urlencoded/;
+    our @EXPORT_OK = qw/parse_urlencoded build_urlencoded build_urlencoded_utf8/;
 
     my $use_pp = $ENV{WWW_FORM_URLENCODED_PP};
 
@@ -142,6 +142,10 @@ build urlencoded string from B<param>. build_urlencoded accepts arrayref and has
   build_urlencoded( {foo => [1,2]} );
 
 If C<$delim> parameter is passed, this function use it instead of using C<&>.
+
+=item $string = build_urlencoded_utf8(...)
+
+This function is almost same as C<build_urlencoded>. build_urlencoded_utf8 call C<utf8::encode> for all parameters.
 
 =back
 

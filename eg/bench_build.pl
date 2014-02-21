@@ -17,12 +17,12 @@ my %param = (
     arrayref => [qw/1 2 5/]
 );
 
-my @qs = (
+warn build_urlencoded(
     s_id => 1,
     type => 'foo',
+    hoge => "bar",
     %param
 );
-warn build_urlencoded(@qs);
 
 cmpthese(timethese(-2, {
     'use_uri' => sub {
@@ -34,7 +34,7 @@ cmpthese(timethese(-2, {
         );
         $uri->as_string;
     },
-    'concat_uri' => sub {
+    'concat_uri_escape' => sub {
         my @qs = (
             s_id => 1,
             type => 'foo',
@@ -83,6 +83,15 @@ cmpthese(timethese(-2, {
         );
         $uri;
     },
+    'use_uri2' => sub {
+        my $uri = URI->new($base . $path . "?" . build_urlencoded(
+            s_id => 1,
+            type => 'foo',
+            %param
+        ));
+        $uri->as_string;
+    },
+
 }));
 
 __END__

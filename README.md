@@ -84,6 +84,10 @@ WWW::Form::UrlEncoded parsed string in this rule.
 
     If `$delim` parameter is passed, this function use it instead of using `&`.
 
+- $string = build\_urlencoded\_utf8(...)
+
+    This function is almost same as `build_urlencoded`. build\_urlencoded\_utf8 call `utf8::encode` for all parameters.
+
 # ENVIRONMENT VALUE
 
 - WWW\_FORM\_URLENCODED\_PP

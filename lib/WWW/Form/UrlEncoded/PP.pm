@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base qw/Exporter/;
 
-our @EXPORT_OK = qw/parse_urlencoded build_urlencoded/;
+our @EXPORT_OK = qw/parse_urlencoded build_urlencoded build_urlencoded_utf8/;
 
 our $DECODE = qr/%([0-9a-fA-F]{2})/;
 our %DecodeMap;
@@ -39,6 +39,7 @@ sub parse_urlencoded {
     return @params;
 }
 
+our $NEED_UPGRADE = 1;
 sub build_urlencoded {
     return "" unless @_;
     my $uri = '';
@@ -46,6 +47,7 @@ sub build_urlencoded {
     if ( ref $_[0] && ref $_[0] eq 'ARRAY') {
         my @args = @{$_[0]};
         $delim = $_[1] if defined $_[1];
+        utf8::encode($delim) if $NEED_UPGRADE;
         while ( @args ) {
             my $k = shift @args;
             my $v = shift @args;
@@ -59,6 +61,7 @@ sub build_urlencoded {
     }
     elsif ( ref $_[0] && ref $_[0] eq 'HASH') {
         $delim = $_[1] if defined $_[1];
+        utf8::encode($delim) if $NEED_UPGRADE;
         while ( my ($k,$v) = each %{$_[0]} ) {
             if ( ref $v && ref $v eq 'ARRAY') {
                 $uri .= url_encode($k) . '='. url_encode($_) . $delim for @$v;
@@ -71,6 +74,7 @@ sub build_urlencoded {
     else {
         if ( @_ > 2 && @_ % 2 ) {
             $delim = pop @_;
+            utf8::encode($delim) if $NEED_UPGRADE;
         }
         while ( @_ ) {
             my $k = shift @_;
@@ -87,9 +91,16 @@ sub build_urlencoded {
     $uri;
 }
 
+sub build_urlencoded_utf8 {
+    local $NEED_UPGRADE = 1;
+    my $uri = build_urlencoded(@_);
+    $uri;
+}
+
 sub url_encode {
     return '' unless defined $_[0];
-    my $t = shift; 
+    my $t = shift;
+    utf8::encode($t) if $NEED_UPGRADE;
     $t =~ s!([^A-Za-z0-9\-\._~])!
         join '',@EncodeMap{exists $EncodeMap{$1} ? ($1) : ($1 =~ /(\C)/gs)}
     !gsxe;
