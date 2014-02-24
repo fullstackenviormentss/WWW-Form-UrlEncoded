@@ -121,6 +121,10 @@ WWW::Form::UrlEncoded parsed string in this rule.
 
 parse C<$str> and return Array that contains key-value pairs.
 
+=item $param:ArrayRef = parse_urlencoded_arrayref($str:String)
+
+parse C<$str> and return ArrayRef that contains key-value pairs.
+
 =item $string = build_urlencoded(@param)
 
 =item $string = build_urlencoded(@param, $delim)
