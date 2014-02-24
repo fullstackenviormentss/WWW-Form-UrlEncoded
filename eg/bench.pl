@@ -33,6 +33,11 @@ cmpthese(timethese(-1, {
             my @q = WWW::Form::UrlEncoded::XS::parse_urlencoded($qs);
         }
     },
+    wwwform_xs_ref => sub {
+        foreach my $qs (@query_string) {
+            my $q = WWW::Form::UrlEncoded::XS::parse_urlencoded_arrayref($qs);
+        }
+    },
     wwwform_pp => sub {
         foreach my $qs (@query_string) {
             my @q = WWW::Form::UrlEncoded::PP::parse_urlencoded($qs);
@@ -40,22 +45,25 @@ cmpthese(timethese(-1, {
     },
     urlencode_xs => sub {
         foreach my $qs (@query_string) {
-            my @q = @{URL::Encode::XS::url_params_flat($qs)};
+            my $q = URL::Encode::XS::url_params_flat($qs);
         }
     },
 }));
 
 
 __END__
-Benchmark: running text_qs, urlencode_xs, wwwform_pp, wwwform_xs for at least 1 CPU seconds...
-   text_qs:  1 wallclock secs ( 1.08 usr +  0.00 sys =  1.08 CPU) @ 53096.30/s (n=57344)
-urlencode_xs:  1 wallclock secs ( 1.08 usr +  0.00 sys =  1.08 CPU) @ 66369.44/s (n=71679)
-wwwform_pp:  1 wallclock secs ( 1.06 usr +  0.01 sys =  1.07 CPU) @ 11821.50/s (n=12649)
-wwwform_xs:  1 wallclock secs ( 1.05 usr +  0.00 sys =  1.05 CPU) @ 91021.90/s (n=95573)
-                Rate   wwwform_pp      text_qs urlencode_xs   wwwform_xs
-wwwform_pp   11821/s           --         -78%         -82%         -87%
-text_qs      53096/s         349%           --         -20%         -42%
-urlencode_xs 66369/s         461%          25%           --         -27%
-wwwform_xs   91022/s         670%          71%          37%           --
+Benchmark: running text_qs, urlencode_xs, wwwform_pp, wwwform_xs, wwwform_xs_ref for at least 1 CPU seconds...
+   text_qs:  1 wallclock secs ( 1.11 usr +  0.00 sys =  1.11 CPU) @ 51661.26/s (n=57344)
+urlencode_xs:  1 wallclock secs ( 1.11 usr +  0.00 sys =  1.11 CPU) @ 96863.96/s (n=107519)
+wwwform_pp:  1 wallclock secs ( 1.15 usr +  0.00 sys =  1.15 CPU) @ 10387.83/s (n=11946)
+wwwform_xs:  2 wallclock secs ( 1.10 usr +  0.00 sys =  1.10 CPU) @ 86884.55/s (n=95573)
+wwwform_xs_ref:  1 wallclock secs ( 1.06 usr +  0.00 sys =  1.06 CPU) @ 95466.98/s (n=101195)
+                  Rate wwwform_pp text_qs wwwform_xs wwwform_xs_ref urlencode_xs
+wwwform_pp     10388/s         --    -80%       -88%           -89%         -89%
+text_qs        51661/s       397%      --       -41%           -46%         -47%
+wwwform_xs     86885/s       736%     68%         --            -9%         -10%
+wwwform_xs_ref 95467/s       819%     85%        10%             --          -1%
+urlencode_xs   96864/s       832%     87%        11%             1%           --
+
 
 
