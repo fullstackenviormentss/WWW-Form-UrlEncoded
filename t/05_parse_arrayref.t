@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-use WWW::Form::UrlEncoded::PP qw/parse_urlencoded_arrayref/;
+use WWW::Form::UrlEncoded qw/parse_urlencoded_arrayref/;
 use JSON;
 
 while (<DATA>) {
