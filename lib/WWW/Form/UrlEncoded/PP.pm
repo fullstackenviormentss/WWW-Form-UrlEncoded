@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base qw/Exporter/;
 
-our @EXPORT_OK = qw/parse_urlencoded build_urlencoded build_urlencoded_utf8/;
+our @EXPORT_OK = qw/parse_urlencoded parse_urlencoded_arrayref build_urlencoded build_urlencoded_utf8/;
 
 our $DECODE = qr/%([0-9a-fA-F]{2})/;
 our %DecodeMap;
@@ -37,6 +37,10 @@ sub parse_urlencoded {
     }
 
     return @params;
+}
+
+sub parse_urlencoded_arrayref {
+    [parse_urlencoded(@_)];
 }
 
 our $NEED_UPGRADE = 1;

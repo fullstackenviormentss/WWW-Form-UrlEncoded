@@ -47,7 +47,7 @@
             "perl" : "5.008001"
          },
          "suggests" : {
-            "WWW::Form::UrlEncoded::XS" : "0.13"
+            "WWW::Form::UrlEncoded::XS" : "0.16"
          }
       },
       "test" : {

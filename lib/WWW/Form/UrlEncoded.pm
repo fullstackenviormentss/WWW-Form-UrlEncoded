@@ -6,7 +6,7 @@ use warnings;
 
 BEGIN {
     our $VERSION = "0.14";
-    our @EXPORT_OK = qw/parse_urlencoded build_urlencoded build_urlencoded_utf8/;
+    our @EXPORT_OK = qw/parse_urlencoded parse_urlencoded build_urlencoded build_urlencoded_utf8/;
 
     my $use_pp = $ENV{WWW_FORM_URLENCODED_PP};
 
