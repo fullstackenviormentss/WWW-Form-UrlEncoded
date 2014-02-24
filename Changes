@@ -2,6 +2,10 @@ Revision history for Perl extension WWW-Form-UrlEncoded
 
 {{$NEXT}}
 
+0.16 2014-02-24T08:14:53Z
+
+    - add parse_urlencoded_arrayref
+
 0.14 2014-02-21T04:21:03Z
 
     - add build_urlencoded_utf8
