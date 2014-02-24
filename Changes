@@ -2,6 +2,10 @@ Revision history for Perl extension WWW-Form-UrlEncoded
 
 {{$NEXT}}
 
+0.17 2014-02-24T13:50:55Z
+
+    - fix EXPORT bug. _arrayref did not export
+
 0.16 2014-02-24T08:14:53Z
 
     - add parse_urlencoded_arrayref
