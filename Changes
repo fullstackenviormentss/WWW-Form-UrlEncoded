@@ -2,6 +2,10 @@ Revision history for Perl extension WWW-Form-UrlEncoded
 
 {{$NEXT}}
 
+0.19 2014-04-30T03:26:43Z
+
+   - bugfix: PP::build_urlencoded should not do utf8::upgrade.
+
 0.17 2014-02-24T13:50:55Z
 
     - fix EXPORT bug. _arrayref did not export
