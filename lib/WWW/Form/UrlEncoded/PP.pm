@@ -43,7 +43,7 @@ sub parse_urlencoded_arrayref {
     [parse_urlencoded(@_)];
 }
 
-our $NEED_UPGRADE = 1;
+our $NEED_UPGRADE = 0;
 sub build_urlencoded {
     return "" unless @_;
     my $uri = '';
