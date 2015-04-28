@@ -2,6 +2,10 @@ Revision history for Perl extension WWW-Form-UrlEncoded
 
 {{$NEXT}}
 
+0.21 2015-04-28T17:04:09Z
+
+   - add some tests related https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/issues/1
+
 0.19 2014-04-30T03:26:43Z
 
    - bugfix: PP::build_urlencoded should not do utf8::upgrade.
