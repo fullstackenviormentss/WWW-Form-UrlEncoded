@@ -105,9 +105,12 @@ sub url_encode {
     return '' unless defined $_[0];
     my $t = shift;
     utf8::encode($t) if $NEED_UPGRADE;
-    $t =~ s!([^A-Za-z0-9\-\._~])!
-        join '',@EncodeMap{exists $EncodeMap{$1} ? ($1) : ($1 =~ /(\C)/gs)}
-    !gsxe;
+    {
+        use bytes;
+        $t =~ s!([^A-Za-z0-9\-\._~])!
+            join '',@EncodeMap{exists $EncodeMap{$1} ? ($1) : (split //,$1)}
+        !gsxe;
+    }
     return $t;
 }
 
