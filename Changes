@@ -2,6 +2,10 @@ Revision history for Perl extension WWW-Form-UrlEncoded
 
 {{$NEXT}}
 
+0.22 2015-06-12T05:37:24Z
+
+   - \C is deprecated at perl-5.22 (Thank you eserte)
+
 0.21 2015-04-28T17:04:09Z
 
    - add some tests related https://github.com/kazeburo/WWW-Form-UrlEncoded-XS/issues/1
