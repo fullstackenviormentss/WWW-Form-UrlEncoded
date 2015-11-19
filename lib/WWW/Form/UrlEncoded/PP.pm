@@ -21,8 +21,8 @@ for my $num ( 0 .. 255 ) {
 $EncodeMap{" "} = '+';
 
 sub parse_urlencoded {
-    return [] unless defined $_[0];
     my @params;
+    return @params unless defined $_[0];
     for my $pair ( split( /[&;] ?/, $_[0], -1 ) ) {
         $pair =~ y/\+/\x20/;
         my ($key, $val) = split /=/, $pair, 2;
